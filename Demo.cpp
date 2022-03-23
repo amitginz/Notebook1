@@ -6,7 +6,7 @@
  * Since : 2022-01
  */
 
-#include "Notebook.cpp"
+#include "Notebook.hpp"
 #include "Direction.hpp"
 using ariel::Direction;
 

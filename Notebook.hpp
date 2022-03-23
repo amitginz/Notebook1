@@ -1,10 +1,11 @@
 #pragma once
 #include "Direction.hpp"
-using ariel::Direction;
 
+#include <string>
 #include <iostream>
-#include <stdexcept>
 using namespace std;
+#include <stdexcept>
+
 
 namespace ariel {
     class Notebook
@@ -12,15 +13,16 @@ namespace ariel {
     private:
         /* data */
     public:
+        Notebook() {}
+        ~Notebook() {}
+
+        string read(int page, int row, int column,ariel::Direction direction, int length){return "";}
         
+        void write(int page, int row, int column,ariel::Direction direction, string a){}
 
-        string read(int x, int y, int z,Direction d, int a);
-        
-        void write(int x, int y, int z,Direction d, string a);
+        void erase(int page, int row, int column,ariel::Direction direction, int length){}
 
-        void erase(int x, int y, int z,Direction d, int a);
-
-        void show(int x);
+        void show(int page){}
     };
 
 }

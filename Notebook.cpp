@@ -1,34 +1,23 @@
 
 #include "Direction.hpp"
-using ariel::Direction;
-// #include "Notebook.hpp"
+#include "Notebook.hpp"
 #include <iostream>
-#include <stdexcept>
 using namespace std;
-namespace ariel {
-class Notebook
-{
-private:
-    /* data */
-public:
-    char page;
-    
-    int size;
-    string read(int x, int y, int z,Direction d, int a){
+#include <string>
+
+
+    string read(int page, int row, int column,ariel::Direction direction, int length){
         return "";
     }
 
-    void write(int x, int y, int z,Direction d, string str){
+    void write(int page, int row, int column,ariel::Direction direction, string str){
         ;
     }
 
-    void erase(int x, int y, int z,Direction d, int a){
+    void erase(int page, int row, int column,ariel::Direction direction, int length){
         ;
     }
 
     void show(int page){
         ;
     }
-};
-
-}

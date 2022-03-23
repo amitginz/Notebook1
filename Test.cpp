@@ -6,28 +6,18 @@
  */
 
 #include "doctest.h"
-// #include "Notebook.hpp"
-#include "Notebook.cpp"
+#include "Notebook.hpp"
 #include "Direction.hpp"
-using namespace ariel;
-
+#include <iostream>
 #include <string>
 #include <algorithm>
 using namespace std;
+using namespace ariel;
+using ariel::Direction;
 
-/**
- * Returns the input string without the whitespace characters: space, newline and tab.
- * Requires std=c++2a.
- */
-// string nospaces(string input) {
-// 	std::erase(input, ' ');
-// 	std::erase(input, '\t');
-// 	std::erase(input, '\n');
-// 	std::erase(input, '\r');
-// 	return input;
-// }
+
 TEST_CASE("check throw-illeagal input") {
-	ariel::Notebook note;
+	Notebook note;
 	CHECK_THROWS(note.read(-10, -5, -5, Direction::Vertical,3));
 	CHECK_THROWS(note.read(-1, -2, -5, Direction::Vertical,3));
 	CHECK_THROWS(note.read(-1, -5, 0, Direction::Vertical,3));
@@ -36,7 +26,7 @@ TEST_CASE("check throw-illeagal input") {
 	CHECK_THROWS(note.read(-7, -8, 0, Direction::Vertical,30));
 }
 TEST_CASE("check throw-illeagal input") {
-	ariel::Notebook note;
+	Notebook note;
 	CHECK_THROWS(note.write(-10, -5, -5, Direction::Vertical,"3"));
 	CHECK_THROWS(note.write(-1, -2, -5, Direction::Vertical,"3"));
 	CHECK_THROWS(note.write(-1, -5, 0, Direction::Vertical,"3"));
@@ -48,7 +38,7 @@ TEST_CASE("check throw-illeagal input") {
 }
 
 TEST_CASE("check throw-illeagal input") {
-	ariel::Notebook note;
+	Notebook note;
 	CHECK_THROWS(note.erase(-10, -5, -5, Direction::Vertical,3));
 	CHECK_THROWS(note.erase(-1, -2, -5, Direction::Vertical,3));
 	CHECK_THROWS(note.erase(-1, -5, 0, Direction::Vertical,3));
@@ -59,7 +49,7 @@ TEST_CASE("check throw-illeagal input") {
 	
 }
 TEST_CASE("Good input"){
-	ariel::Notebook note;
+	Notebook note;
 	CHECK_NOTHROW(note.read(10, 5, 5, Direction::Vertical,3));
 	CHECK_NOTHROW(note.read(1, 2, 5, Direction::Vertical,3));
 	CHECK_NOTHROW(note.read(1, 5, 0, Direction::Vertical,3));
@@ -69,7 +59,7 @@ TEST_CASE("Good input"){
 	
 }
 TEST_CASE("Good input") {
-	ariel::Notebook note;
+	Notebook note;
 	CHECK_NOTHROW(note.write(10, 5, 5, Direction::Vertical,"3"));
 	CHECK_NOTHROW(note.write(1, 2, 5, Direction::Vertical,"3"));
 	CHECK_NOTHROW(note.write(1, 5, 0, Direction::Vertical,"3"));
@@ -80,7 +70,7 @@ TEST_CASE("Good input") {
 	
 }
 TEST_CASE("Good input") {
-	ariel::Notebook note;
+	Notebook note;
 	CHECK_NOTHROW(note.erase(7, 8, 0, Direction::Vertical,30));
 	CHECK_NOTHROW(note.erase(7, 9, 15, Direction::Vertical,30));
 	CHECK_NOTHROW(note.erase(7, 2, 0, Direction::Vertical,30));
@@ -88,11 +78,38 @@ TEST_CASE("Good input") {
 	CHECK_NOTHROW(note.erase(1, 8, 6, Direction::Vertical,30));
 	
 }
-// TEST_CASE("Good input") {
-// 	CHECK();
-	
-// }
-// TEST_CASE("Good input") {
-// 	CHECK();
-	
-// }
+TEST_CASE("erase-again") {
+	Notebook note;
+	note.write(1, 1, 1, Direction::Vertical,"1");
+	note.write(2, 2, 2, Direction::Vertical,"1");
+	note.write(3, 3, 3, Direction::Vertical,"1");
+	note.write(4, 4, 4, Direction::Vertical,"1");
+	note.write(5, 5, 5, Direction::Vertical,"1");
+	note.write(6, 6, 6, Direction::Vertical,"1");
+	note.erase(1, 1, 1, Direction::Vertical,1);
+	note.erase(2, 2, 2, Direction::Vertical,1);
+	note.erase(3, 3, 3, Direction::Vertical,1);
+	note.erase(4, 4, 4, Direction::Vertical,1);
+	note.erase(5, 5, 5, Direction::Vertical,1);
+	note.erase(6, 6, 6, Direction::Vertical,1);
+	for(int i = 1 ; i <=6 ; i++){
+		CHECK_THROWS(note.erase(i, i, i, Direction::Vertical,1));
+	}
+}
+TEST_CASE("worng input") {
+	Notebook note;
+ 	note.write(58, 80, 6, Direction::Horizontal, "amit");                             
+    note.write(58, 81, 4, Direction::Horizontal, "ginz");                             
+    note.write(58, 82, 4, Direction::Horizontal, "mira");
+	note.write(58, 83, 4, Direction::Horizontal, "mira");
+   
+    CHECK(note.read(58, 80, 6, Direction::Horizontal, 4) == "amit"); 
+    CHECK(note.read(58, 81, 4, Direction::Horizontal, 4) == "ginz"); 
+    CHECK(note.read(58, 82, 4, Direction::Horizontal, 4) == "mira");
+	CHECK(note.read(58, 83, 4, Direction::Horizontal, 5) == "shaul");
+
+	CHECK_FALSE(note.read(58, 80, 6, Direction::Horizontal, 4) == "aaaa"); 
+    CHECK_FALSE(note.read(58, 81, 4, Direction::Horizontal, 4) == "gggg"); 
+    CHECK_FALSE(note.read(58, 82, 4, Direction::Horizontal, 4) == "nmmmm");
+	CHECK_FALSE(note.read(58, 83, 4, Direction::Horizontal, 5) == "gggg");
+}
